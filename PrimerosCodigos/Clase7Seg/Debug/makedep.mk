@@ -4,3 +4,5 @@
 
 main.c
 
+SEVENSEG\SEVENSEG_LIB.c
+

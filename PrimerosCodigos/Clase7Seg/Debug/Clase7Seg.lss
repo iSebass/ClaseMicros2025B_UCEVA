@@ -3,31 +3,31 @@ Clase7Seg.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         0000000a  00800100  00000102  00000196  2**0
+  0 .data         0000000a  00800100  00000110  000001a4  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000102  00000000  00000000  00000094  2**1
+  1 .text         00000110  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000001  0080010a  0080010a  000001a0  2**0
+  2 .bss          00000001  0080010a  0080010a  000001ae  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000001a0  2**0
+  3 .comment      00000030  00000000  00000000  000001ae  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000001d0  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000001e0  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000020  00000000  00000000  00000210  2**0
+  5 .debug_aranges 00000050  00000000  00000000  00000220  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000008f3  00000000  00000000  00000230  2**0
+  6 .debug_info   000009f5  00000000  00000000  00000270  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 0000080a  00000000  00000000  00000b23  2**0
+  7 .debug_abbrev 000008b2  00000000  00000000  00000c65  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000002bb  00000000  00000000  0000132d  2**0
+  8 .debug_line   000003c1  00000000  00000000  00001517  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000024  00000000  00000000  000015e8  2**2
+  9 .debug_frame  00000068  00000000  00000000  000018d8  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000462  00000000  00000000  0000160c  2**0
+ 10 .debug_str    000004ab  00000000  00000000  00001940  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000048  00000000  00000000  00001a6e  2**0
+ 11 .debug_loc    0000008a  00000000  00000000  00001deb  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000010  00000000  00000000  00001ab6  2**0
+ 12 .debug_ranges 00000030  00000000  00000000  00001e75  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -116,7 +116,7 @@ Disassembly of section .text:
   98:	11 e0       	ldi	r17, 0x01	; 1
   9a:	a0 e0       	ldi	r26, 0x00	; 0
   9c:	b1 e0       	ldi	r27, 0x01	; 1
-  9e:	e2 e0       	ldi	r30, 0x02	; 2
+  9e:	e0 e1       	ldi	r30, 0x10	; 16
   a0:	f1 e0       	ldi	r31, 0x01	; 1
   a2:	00 e0       	ldi	r16, 0x00	; 0
   a4:	0b bf       	out	0x3b, r16	; 59
@@ -141,60 +141,82 @@ Disassembly of section .text:
   be:	b2 07       	cpc	r27, r18
   c0:	e1 f7       	brne	.-8      	; 0xba <.do_clear_bss_loop>
   c2:	02 d0       	rcall	.+4      	; 0xc8 <main>
-  c4:	1c c0       	rjmp	.+56     	; 0xfe <_exit>
+  c4:	23 c0       	rjmp	.+70     	; 0x10c <_exit>
 
 000000c6 <__bad_interrupt>:
   c6:	9c cf       	rjmp	.-200    	; 0x0 <__vectors>
 
 000000c8 <main>:
+
 char contador=0; // 0 - 9
 
 int main(void)
 {
-	//CONFIGURAMOS TODO EL PUERTO COMO SALIDA
-    DDRD = 0xFF;
-  c8:	8f ef       	ldi	r24, 0xFF	; 255
-  ca:	8a b9       	out	0x0a, r24	; 10
-
+	diplayInit();
+  c8:	15 d0       	rcall	.+42     	; 0xf4 <diplayInit>
 	//LOOP
     while (1) 
     {
-		PORTD = decoCC[contador];
-  cc:	e0 91 0a 01 	lds	r30, 0x010A	; 0x80010a <__data_end>
-  d0:	f0 e0       	ldi	r31, 0x00	; 0
-  d2:	e0 50       	subi	r30, 0x00	; 0
-  d4:	ff 4f       	sbci	r31, 0xFF	; 255
-  d6:	80 81       	ld	r24, Z
-  d8:	8b b9       	out	0x0b, r24	; 11
+		displayDecoCC(contador);
+  ca:	80 91 0a 01 	lds	r24, 0x010A	; 0x80010a <__data_end>
+  ce:	15 d0       	rcall	.+42     	; 0xfa <displayDecoCC>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-  da:	2f e7       	ldi	r18, 0x7F	; 127
-  dc:	84 e8       	ldi	r24, 0x84	; 132
-  de:	9e e1       	ldi	r25, 0x1E	; 30
-  e0:	21 50       	subi	r18, 0x01	; 1
-  e2:	80 40       	sbci	r24, 0x00	; 0
-  e4:	90 40       	sbci	r25, 0x00	; 0
-  e6:	e1 f7       	brne	.-8      	; 0xe0 <main+0x18>
-  e8:	00 c0       	rjmp	.+0      	; 0xea <main+0x22>
-  ea:	00 00       	nop
+  d0:	2f e7       	ldi	r18, 0x7F	; 127
+  d2:	84 e8       	ldi	r24, 0x84	; 132
+  d4:	9e e1       	ldi	r25, 0x1E	; 30
+  d6:	21 50       	subi	r18, 0x01	; 1
+  d8:	80 40       	sbci	r24, 0x00	; 0
+  da:	90 40       	sbci	r25, 0x00	; 0
+  dc:	e1 f7       	brne	.-8      	; 0xd6 <main+0xe>
+  de:	00 c0       	rjmp	.+0      	; 0xe0 <main+0x18>
+  e0:	00 00       	nop
 		_delay_ms(500);
 		contador++;
-  ec:	80 91 0a 01 	lds	r24, 0x010A	; 0x80010a <__data_end>
-  f0:	8f 5f       	subi	r24, 0xFF	; 255
+  e2:	80 91 0a 01 	lds	r24, 0x010A	; 0x80010a <__data_end>
+  e6:	8f 5f       	subi	r24, 0xFF	; 255
 	    contador = contador>9 ? 0:contador;
-  f2:	8a 30       	cpi	r24, 0x0A	; 10
-  f4:	08 f0       	brcs	.+2      	; 0xf8 <main+0x30>
-  f6:	80 e0       	ldi	r24, 0x00	; 0
-  f8:	80 93 0a 01 	sts	0x010A, r24	; 0x80010a <__data_end>
+  e8:	8a 30       	cpi	r24, 0x0A	; 10
+  ea:	08 f0       	brcs	.+2      	; 0xee <main+0x26>
+  ec:	80 e0       	ldi	r24, 0x00	; 0
+  ee:	80 93 0a 01 	sts	0x010A, r24	; 0x80010a <__data_end>
+		
+		
     }
-  fc:	e7 cf       	rjmp	.-50     	; 0xcc <main+0x4>
+  f2:	eb cf       	rjmp	.-42     	; 0xca <main+0x2>
 
-000000fe <_exit>:
-  fe:	f8 94       	cli
+000000f4 <diplayInit>:
+char decoCC[10]={191, 134, 219, 207, 230, 237, 253, 135, 255, 231};
+char decoAC[10]={64, 121, 36, 48, 25, 18, 2, 120, 0, 24};
 
-00000100 <__stop_program>:
- 100:	ff cf       	rjmp	.-2      	; 0x100 <__stop_program>
+
+void diplayInit(){
+	DDR_DISPLAY = 0xFF;
+  f4:	8f ef       	ldi	r24, 0xFF	; 255
+  f6:	8a b9       	out	0x0a, r24	; 10
+  f8:	08 95       	ret
+
+000000fa <displayDecoCC>:
+}
+void displayDecoCC( unsigned char digito ){
+	 if(digito>9) return;
+  fa:	8a 30       	cpi	r24, 0x0A	; 10
+  fc:	30 f4       	brcc	.+12     	; 0x10a <displayDecoCC+0x10>
+	 PORT_DISPLAY = decoCC[digito];
+  fe:	e8 2f       	mov	r30, r24
+ 100:	f0 e0       	ldi	r31, 0x00	; 0
+ 102:	e0 50       	subi	r30, 0x00	; 0
+ 104:	ff 4f       	sbci	r31, 0xFF	; 255
+ 106:	80 81       	ld	r24, Z
+ 108:	8b b9       	out	0x0b, r24	; 11
+ 10a:	08 95       	ret
+
+0000010c <_exit>:
+ 10c:	f8 94       	cli
+
+0000010e <__stop_program>:
+ 10e:	ff cf       	rjmp	.-2      	; 0x10e <__stop_program>
