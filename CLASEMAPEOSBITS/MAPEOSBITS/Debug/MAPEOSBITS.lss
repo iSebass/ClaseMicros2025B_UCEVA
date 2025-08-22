@@ -116,16 +116,16 @@ Disassembly of section .text:
   9c:	b1 cf       	rjmp	.-158    	; 0x0 <__vectors>
 
 0000009e <main>:
+#include "CONFIG/Config.h"
+
 
 int main(void){
 	
-	//DDRDbits.BIT0 = 1;
-	
-	DDRD |= (1<<PIND0);
+	DDRDbits.BIT0 = 1;
   9e:	8a b1       	in	r24, 0x0a	; 10
   a0:	81 60       	ori	r24, 0x01	; 1
   a2:	8a b9       	out	0x0a, r24	; 10
-
+	
     while(1){
 		PORTDbits.BIT0 = 1;
   a4:	8b b1       	in	r24, 0x0b	; 11
