@@ -5,9 +5,6 @@
 #include "LCD/LCD_LIB.h"
 #include "HCSR04_LIB/HCSR04_LIB.h"
 
-
-
-
 int distancia=0;
 
 int main(void)
@@ -15,15 +12,13 @@ int main(void)
 	lcd_init();
 	lcd_disable_cursor();
 	lcd_disable_blink();
-	
 	HCSR04_Init();
-	
-	
+
     while (1){
 		
 		distancia = HCSR04_GetDistance();
 		lcd_set_cursor(1,1);
-		lcd_printf("distancia: %d", distancia);
+		lcd_printf("distancia: %3d", distancia);
 		_delay_ms(100);
 		
     }
