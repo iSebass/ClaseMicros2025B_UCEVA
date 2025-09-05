@@ -34,14 +34,16 @@ LINKER_SCRIPT_DEP:=
 # Every subdirectory with source files must be described here
 SUBDIRS :=  \
 ../LCD \
-../HCSR04_LIB
+../HCSR04_LIB \
+../SERVO
 
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../HCSR04_LIB/HCSR04_LIB.c \
 ../LCD/LCD_LIB.c \
-../main.c
+../main.c \
+../SERVO/SERVO_LIB.c
 
 
 PREPROCESSING_SRCS += 
@@ -53,22 +55,26 @@ ASM_SRCS +=
 OBJS +=  \
 HCSR04_LIB/HCSR04_LIB.o \
 LCD/LCD_LIB.o \
-main.o
+main.o \
+SERVO/SERVO_LIB.o
 
 OBJS_AS_ARGS +=  \
 HCSR04_LIB/HCSR04_LIB.o \
 LCD/LCD_LIB.o \
-main.o
+main.o \
+SERVO/SERVO_LIB.o
 
 C_DEPS +=  \
 HCSR04_LIB/HCSR04_LIB.d \
 LCD/LCD_LIB.d \
-main.d
+main.d \
+SERVO/SERVO_LIB.d
 
 C_DEPS_AS_ARGS +=  \
 HCSR04_LIB/HCSR04_LIB.d \
 LCD/LCD_LIB.d \
-main.d
+main.d \
+SERVO/SERVO_LIB.d
 
 OUTPUT_FILE_PATH +=SensoresDigitales01.elf
 
@@ -99,6 +105,13 @@ LCD/LCD_LIB.o: ../LCD/LCD_LIB.c
 	
 
 ./main.o: .././main.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega328p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+SERVO/SERVO_LIB.o: ../SERVO/SERVO_LIB.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega328p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

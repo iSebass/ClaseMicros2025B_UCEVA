@@ -135,10 +135,17 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="SERVO\SERVO_LIB.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SERVO\SERVO_LIB.h">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="LCD" />
     <Folder Include="HCSR04_LIB" />
+    <Folder Include="SERVO" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>
