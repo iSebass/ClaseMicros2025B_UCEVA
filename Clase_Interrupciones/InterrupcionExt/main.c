@@ -3,12 +3,21 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 
+#include "LCD/LCD_LIB.h"
+
 
 char old_value, current_value;
+
+unsigned long freq;
 
 
 int main(void){
 	
+	//LCD
+	//lcd_init();
+	//lcd_disable_cursor();
+	//lcd_disable_blink();
+		
 	//CARGAMOS EL CALOR DEL PIN
 	 old_value = (PINC & (1<<PINC0) ) == 1 ? 1: 0;
     
@@ -40,15 +49,17 @@ int main(void){
 		
 		
 		
-		_delay_ms(2000);
-		
+		_delay_ms(1000);
+		//lcd_set_cursor(1,1);
+		//lcd_printf("FREQ: %u", freq);
+		//freq=0;
 		
 		
     }
 }
 
 ISR(INT0_vect){
-	PORTB ^=  (1<<PINB0);
+	freq++;
 }
 ISR(INT1_vect){
 	PORTB ^=  (1<<PINB1);
