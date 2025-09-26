@@ -6,7 +6,7 @@
 #include "LCD/LCD_LIB.h"
 
 int conver;
-float temp;
+float temp, sp;
 
 int main(void)
 {
@@ -19,10 +19,16 @@ int main(void)
 	while (1) 
     {
 		conver = ADC_read(A0);
-		temp = 100.0/1023.0*conver;
+		temp   = ADC_Map( conver, 0.0, 307, 0.0, 150.0  );
+		
+		conver = ADC_read(A1);
+		sp     = ADC_Map( conver, 0.0, 1023.0, 20.0, 80.0 );
 		
 		lcd_set_cursor(1,1);
 		lcd_printf("Temp: %5.1f", temp);
+		
+		lcd_set_cursor(2,1);
+		lcd_printf("set_point: %5.1f", sp);
 		_delay_ms(100);
 		
     }
